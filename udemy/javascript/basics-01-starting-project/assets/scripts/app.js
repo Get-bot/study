@@ -7,19 +7,21 @@ function getUserInputNumber() {
 }
 
 function createAndWriteCalcLog(operator, beforeCalcNumber, calcNumber) {
-    let calcLog;
+
+    let calcLog = `${beforeCalcNumber} ${operator} ${calcNumber}`;
 
     if(beforeCalcNumber == 0){
         calcLog = calcNumber ;
-    }else if ( calcNumber == 0 ) {
+    }else if ( calcNumber == 0 && operator != '/') {
         calcLog = beforeCalcNumber ;
-    }else {
-        calcLog = `${beforeCalcNumber} ${operator} ${calcNumber}`;
     }
 
     if(isNaN(currentResult)){
         currentResult = "정의되지 않은 결과입니다."
-        changeUserInputNumber(0);
+    }
+
+    if(currentResult == Infinity ){
+        currentResult = "0으로 나눌 수 없습니다."
     }
 
     outputResult(currentResult, calcLog);
@@ -46,11 +48,15 @@ function vaildateUserInputNumber(inputNumber) {
         currentResult = 0;
     }
 
+    return true;
+
 }
 
 function add () {
     let inputNumber = getUserInputNumber();
-    vaildateUserInputNumber(inputNumber);
+    if(!vaildateUserInputNumber(inputNumber)){
+        return false;
+    }
     let beforeCalcNumber = currentResult;
     currentResult += inputNumber;
     createAndWriteCalcLog('+', beforeCalcNumber, inputNumber);
@@ -58,7 +64,9 @@ function add () {
 
 function subtract () {
     let inputNumber = getUserInputNumber();
-    vaildateUserInputNumber(inputNumber);
+    if(!vaildateUserInputNumber(inputNumber)){
+        return false;
+    }
     let beforeCalcNumber = currentResult;
     currentResult -= inputNumber;
     createAndWriteCalcLog('-', beforeCalcNumber, inputNumber);
@@ -66,7 +74,9 @@ function subtract () {
 
 function multiply () {
     let inputNumber = getUserInputNumber();
-    vaildateUserInputNumber(inputNumber);
+    if(!vaildateUserInputNumber(inputNumber)){
+        return false;
+    }
     let beforeCalcNumber = currentResult;
     currentResult *= inputNumber;
     createAndWriteCalcLog('*', beforeCalcNumber, inputNumber);
@@ -74,7 +84,9 @@ function multiply () {
 
 function divide () {
     let inputNumber = getUserInputNumber();
-    vaildateUserInputNumber(inputNumber);
+    if(!vaildateUserInputNumber(inputNumber)){
+        return false;
+    }
     let beforeCalcNumber = currentResult;
     currentResult /= inputNumber;
     createAndWriteCalcLog('/', beforeCalcNumber, inputNumber);
