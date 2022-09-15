@@ -2,7 +2,6 @@ const defaultResult = 0;
 let currentResult = defaultResult;
 let calcState = false; 
 
-// 0 일때 나누기체크 0 인풋값 0인거 체크
 function getUserInputNumber() {
     return parseInt(userInput.value);
 }
@@ -16,6 +15,11 @@ function createAndWriteCalcLog(operator, beforeCalcNumber, calcNumber) {
         calcLog = beforeCalcNumber ;
     }else {
         calcLog = `${beforeCalcNumber} ${operator} ${calcNumber}`;
+    }
+
+    if(isNaN(currentResult)){
+        currentResult = "정의되지 않은 결과입니다."
+        changeUserInputNumber(0);
     }
 
     outputResult(currentResult, calcLog);
@@ -37,6 +41,11 @@ function vaildateUserInputNumber(inputNumber) {
         alert("값을 입력후에 계산해주세요");
         return false;
     }
+    
+    if (typeof currentResult == 'string'){
+        currentResult = 0;
+    }
+
 }
 
 function add () {
