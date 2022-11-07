@@ -61,54 +61,45 @@ function vaildateUserInputNumber(inputNumber) {
     return true;
 }
 
-function add() {
-    let inputNumber = getUserInputNumber();
+function calculateResult(calcType) {
+    if (
+        calcType !== "ADD" &&
+        calcType !== "SUBTRACT" &&
+        calcType !== "MULTIPLY" &&
+        calcType !== "DIVIDE"
+    ) {
+        alert("잘못된 연산자입니다.");
+        return;
+    }
+
+    const inputNumber = getUserInputNumber();
     if (!vaildateUserInputNumber(inputNumber)) {
         return false;
     }
-    let beforeCalcNumber = currentResult;
-    currentResult += inputNumber;
-    createAndWriteCalcLog("+", beforeCalcNumber, inputNumber);
-    writeToLog("ADD", beforeCalcNumber, inputNumber, currentResult);
-}
-
-function subtract() {
-    let inputNumber = getUserInputNumber();
-    if (!vaildateUserInputNumber(inputNumber)) {
-        return false;
+    const beforeCalcNumber = currentResult;
+    let mathOperator;
+    if (calcType === "ADD") {
+        currentResult += inputNumber;
+        mathOperator = "+";
+    } else if (calcType === "SUBTRACT") {
+        currentResult -= inputNumber;
+        mathOperator = "-";
+    } else if (calcType === "MULTIPLY") {
+        currentResult *= inputNumber;
+        mathOperator = "*";
+    } else if (calcType === "DIVIDE") {
+        currentResult /= inputNumber;
+        mathOperator = "/";
     }
-    let beforeCalcNumber = currentResult;
-    currentResult -= inputNumber;
-    createAndWriteCalcLog("-", beforeCalcNumber, inputNumber);
-    writeToLog("ADD", beforeCalcNumber, inputNumber, currentResult);
+
+    createAndWriteCalcLog(mathOperator, beforeCalcNumber, inputNumber);
+    writeToLog(calcType, beforeCalcNumber, inputNumber, currentResult);
 }
 
-function multiply() {
-    let inputNumber = getUserInputNumber();
-    if (!vaildateUserInputNumber(inputNumber)) {
-        return false;
-    }
-    let beforeCalcNumber = currentResult;
-    currentResult *= inputNumber;
-    createAndWriteCalcLog("*", beforeCalcNumber, inputNumber);
-    writeToLog("ADD", beforeCalcNumber, inputNumber, currentResult);
-}
-
-function divide() {
-    let inputNumber = getUserInputNumber();
-    if (!vaildateUserInputNumber(inputNumber)) {
-        return false;
-    }
-    let beforeCalcNumber = currentResult;
-    currentResult /= inputNumber;
-    createAndWriteCalcLog("/", beforeCalcNumber, inputNumber);
-    writeToLog("ADD", beforeCalcNumber, inputNumber, currentResult);
-}
-
-addBtn.addEventListener("click", add);
-subtractBtn.addEventListener("click", subtract);
-multiplyBtn.addEventListener("click", multiply);
-divideBtn.addEventListener("click", divide);
+addBtn.addEventListener("click", calculateResult("ADD"));
+subtractBtn.addEventListener("click", calculateResult("SUBTRACT"));
+multiplyBtn.addEventListener("click", calculateResult("MULTIPLY"));
+divideBtn.addEventListener("click", calculateResult("DIVIDE"));
 
 userInput.addEventListener("input", () => {
     let inputNumber = userInput.value;
@@ -125,10 +116,10 @@ userInput.addEventListener("input", () => {
     }
 });
 
-// undefined = 초기화된 변수의 기본값, 값이 없다, 직접 값으로 할당 X 
+// undefined = 초기화된 변수의 기본값, 값이 없다, 직접 값으로 할당 X
 // null = 절대 기본값이 될수 없음, 변수정리나,초기화시 사용
 // NaN = Not a Number, 숫자가 아님, 숫자가 아닌 값을 숫자로 변환하려고 할때 발생
-// defer = HTML 파싱이 끝나면 실행 
+// defer = HTML 파싱이 끝나면 실행
 // async = HTML 파싱과 병렬로 실행
 // DOMContentLoaded = HTML 파싱이 끝나면 실행
 // load = HTML 파싱과 병렬로 실행, 이미지, 스크립트, CSS등의 리소스가 모두 로드되면 실행
