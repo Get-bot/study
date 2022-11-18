@@ -42,15 +42,33 @@ function writeLog(e, val, monsterHealth, playerHealth) {
         finalPlayerHealth: playerHealth,
     };
 
-    if (e === LOG_EVENT_PLAYER_ATTACK) {
-        logEntry.target = "MONSTER";
-    } else if (e === LOG_EVENT_PLAYER_STRONG_ATTACK) {
-        logEntry.target = "MONSTER";
-    } else if (e === LOG_EVENT_PLAYER_HEAL) {
-        logEntry.target = "PLAYER";
-    } else if (e === LOG_EVENT_MONSTER_ATTACK) {
-        logEntry.target = "PLAYER";
+    switch (e) {
+        case LOG_EVENT_PLAYER_ATTACK:
+            logEntry.target = "MONSTER";
+            break;
+        case LOG_EVENT_PLAYER_STRONG_ATTACK:
+            logEntry.target = "MONSTER";
+            break;
+        case LOG_EVENT_PLAYER_HEAL:
+            logEntry.target = "PLAYER";
+            break;
+        case LOG_EVENT_MONSTER_ATTACK:
+            logEntry.target = "PLAYER";
+            break;
+        default:
+            logEntry = {};
     }
+
+    // if (e === LOG_EVENT_PLAYER_ATTACK) {
+    //     logEntry.target = "MONSTER";
+    // } else if (e === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+    //     logEntry.target = "MONSTER";
+    // } else if (e === LOG_EVENT_PLAYER_HEAL) {
+    //     logEntry.target = "PLAYER";
+    // } else if (e === LOG_EVENT_MONSTER_ATTACK) {
+    //     logEntry.target = "PLAYER";
+    // }
+
     battleLog.push(logEntry);
 }
 
@@ -111,12 +129,7 @@ function attackMonster(attackMode) {
     const playerDamage = dealMonsterDamage(maxDamage);
     currentMonsterHealth -= playerDamage;
 
-    writeLog(
-        logEvent,
-        playerDamage,
-        currentMonsterHealth,
-        currentPlayerHealth
-    );
+    writeLog(logEvent, playerDamage, currentMonsterHealth, currentPlayerHealth);
 
     endRound();
 }
@@ -152,7 +165,13 @@ function healPlayerHandler() {
 }
 
 function printingHandler() {
-    console.log(battleLog);
+    // for (let index = 0; index < battleLog.length; index++) {
+    //     console.log(battleLog[index]);
+    // }
+
+    for (const logEntry of battleLog) {
+        console.log(logEntry);
+    }
 }
 
 attackBtn.addEventListener("click", attackHandler);
