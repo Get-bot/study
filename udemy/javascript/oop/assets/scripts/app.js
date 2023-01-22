@@ -1,17 +1,31 @@
+class Product {
+  title = "DEFAULT";
+  imageUrl;
+  descriptions;
+  price;
+
+  constructor ( title, imageUrl, descriptions, price ) {
+    this.title = title;
+    this.imageUrl = imageUrl;
+    this.descriptions = descriptions;
+    this.price = price;
+  }
+}
+
 const productList = {
   products: [
-    {
-      title: "A Pillow",
-      imageUrl: "https://i.ibb.co/1RcFPk0/bean-bag.png",
-      price: 19.99,
-      description: "A soft pillow!",
-    },
-    {
-      title: "A Carpet",
-      imageUrl: "https://i.ibb.co/7CQVJNm/rugs.png",
-      price: 89.99,
-      description: "A carpet which you might like - or not.",
-    }
+    new Product(
+      "A Pillow",
+      "https://i.ibb.co/1RcFPk0/bean-bag.png",
+      "A soft pillow!",
+      19.99
+    ),
+    new Product(
+      "A Carpet",
+      "https://i.ibb.co/7CQVJNm/rugs.png",
+      "A carpet which you might like - or not.",
+      89.99
+    )
   ],
   render() {
     const renderHook = document.querySelector("#app");
