@@ -63,7 +63,7 @@ function healPlayerHandler() {
         healValue = HEAL_VALUE;
     }
 
-    increasePlayerHealth(healValue);
+    increasePlayerHealth(healValue );
     currentPlayerHealth += healValue;
     endRound();
 }
