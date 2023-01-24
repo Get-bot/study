@@ -12,10 +12,35 @@ class Product {
   }
 }
 
+class ShoppingCart {
+  items = [];
+
+  addProduct(product) {
+    this.items.push(product);
+    this.totalOutput.innerHTML = `<h2>Total: \$${1}</h2>`
+  }
+
+  render () {
+    const cartEl = document.createElement("section");
+    cartEl.innerHTML = `
+      <h2>Total: \$${0}</h2>
+      <button>Order Now!</button>
+    `;
+    cartEl.className = "cart";
+    this.totalOutput = cartEl.querySelector('h2');
+    return cartEl;
+  }
+}
+
 class ProductItem {
   constructor ( product ) {
     this.product = product;
   }
+
+  addToCart() {
+    App.addProductToCart(this.product);
+  }
+
   render () {
     const prod = this.product;
     const prodEl = document.createElement("li");
@@ -31,6 +56,8 @@ class ProductItem {
         </div>
       </div>
     `;
+    const addCartButton = prodEl.querySelector("button");
+    addCartButton.addEventListener("click", this.addToCart.bind(this));
   return prodEl;
   }
 }
@@ -55,8 +82,6 @@ class ProductList {
   constructor () {}
 
   render() {
-    
-    const renderHook = document.querySelector("#app");
     const prodList = document.createElement("ul");
     prodList.className = "product-list";
     for (const prod of this.products) {
@@ -64,10 +89,37 @@ class ProductList {
       const productEl = productItem.render();
       prodList.append(productEl);
     }
-    renderHook.append(prodList);
+    return prodList;
   }
 
 }
 
-const productList = new ProductList;
-productList.render();
+class Shop {
+  render() {
+    const renderHook = document.querySelector("#app");
+    this.cart = new ShoppingCart();
+    const cartEl = this.cart.render(); 
+    const productList = new ProductList();
+    const productEl = productList.render();
+
+    renderHook.append(cartEl);
+    renderHook.append(productEl);
+
+  }
+}
+
+class App {
+  static cart;
+
+  static init () {
+    const shop = new Shop;
+    shop.render();
+    this.cart = shop.cart;
+  }
+
+  static addProductToCart(product) {
+    this.cart.addProduct(product)
+  }
+}
+
+App.init();
