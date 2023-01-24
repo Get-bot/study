@@ -58,7 +58,12 @@ class ShoppingCart extends Component {
   }
 
   constructor(renderHookId) {
-    super(renderHookId);
+    super(renderHookId, false);
+    this.orderPorducts = () => {
+      console.log('주문실행중...');
+      console.log(this.items);
+    };
+    this.render();
   }
 
   addProduct(product) {
@@ -68,13 +73,17 @@ class ShoppingCart extends Component {
     this.cartItems = updatedItems;
   }
 
+
+
   render() {
     const cartEl = this.createElement("section", "cart");
     cartEl.innerHTML = `
       <h2>Total: \$${0}</h2>
       <button>Order Now!</button>
     `;
-    cartEl.className = "cart";
+    const orderButton = document.querySelector('button');
+    // orderButton.addEventListener('click', () => this.orderPorducts());
+    orderButton.addEventListener('click', this.orderPorducts);
     this.totalOutput = cartEl.querySelector("h2");
   }
 }
@@ -110,15 +119,16 @@ class ProductItem extends Component {
 }
 
 class ProductList extends Component {
-  products = [];
-
+  #products = [];
+  // # : private.
   constructor(renderHookId) {
-    super(renderHookId);
-    this.fetchProducts();
+    super(renderHookId, false);
+    this.render();
+    this.#fetchProducts();
   }
 
-  fetchProducts() {
-    this.products = [
+  #fetchProducts() {
+    this.#products = [
       new Product("A Pillow", "https://i.ibb.co/1RcFPk0/bean-bag.png", "A soft pillow!", 19.99),
       new Product("A Carpet", "https://i.ibb.co/7CQVJNm/rugs.png", "A carpet which you might like - or not.", 89.99),
     ];
@@ -126,7 +136,7 @@ class ProductList extends Component {
   }
 
   renderPorduct() {
-    for (const prod of this.products) {
+    for (const prod of this.#products) {
       new ProductItem("product-list", prod);
     }
   }
